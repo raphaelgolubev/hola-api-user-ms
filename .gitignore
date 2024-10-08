@@ -1,3 +1,20 @@
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Логи
+logs/
+*.log
+
+# Конфигурационные файлы
+*.env
+
+# VSCode
+# .vscode/
+
+# Прочие файлы
+test.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
