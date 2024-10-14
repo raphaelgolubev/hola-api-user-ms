@@ -1,0 +1,57 @@
+version: '3.8'
+
+networks:
+  user_ms_network:
+    driver: bridge
+    internal: true
+
+volumes:
+  user_db_volume:
+    name: user_postgres_data
+
+
+services:
+  postgres-user-ms:
+    image: postgres:14.1-alpine
+    container_name: postgres-user-ms
+    restart: always
+    env_file:
+      - path: .env
+        required: true
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+    - user_ms_network
+    ports:
+    - 6433:5432
+    volumes:
+    - user_db_volume:/var/lib/postgresql/data
+
+  user-ms:
+    stdin_open: true
+    tty: true
+    env_file:
+      - path: .env
+        required: true
+    build:
+      context: .
+      dockerfile: ./docker/app.Dockerfile
+    ports:
+      - 8001:8001
+    volumes:
+      - source: ./src
+        target: /app/src
+        type: bind
+      - source: ./logs
+        target: /app/logs
+        type: bind
+    restart: always
+    networks:
+      - user_ms_network
+    depends_on:
+      - postgres-user-ms
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
+

@@ -8,6 +8,7 @@ logs/
 
 # Конфигурационные файлы
 *.env
+*.user-ms.secret
 
 # VSCode
 # .vscode/
