@@ -1,0 +1,6 @@
+class EmailAlreadyExistsError(Exception):
+    ...
+
+
+class PhoneAlreadyExistsError(Exception):
+    ...
